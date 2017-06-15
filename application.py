@@ -13,27 +13,30 @@ def index():
 
     # check for installation of style50
     if not os.path.isfile("style50/style50"):
-        return render_template("error.html",
-                               message="style50 is not properly installed.")
+        return render_template("error.html", message="style50 is not properly installed.")
 
     if request.method == "GET":
+
+        # show input form
         languages = ["c", "py", "js", "html", "css"]
         return render_template("index.html", languages=languages)
     else:
+
+        # validate input
         code = request.form.get("code")
         language = request.form.get("language")
-
         if code == None or language == None:
-            return render_template("error.html",
-                                   message="Invalid request.")
+            return render_template("error.html", message="Invalid request.")
         
+        # run style50
         tempdir = tempfile.mkdtemp()
         filename = "{}/tmp.{}".format(tempdir, language)
         with open(filename, "w") as f:
             f.write(code)
         results = pexpect.run("style50/style50 {}".format(filename)).decode("utf-8")
         shutil.rmtree(tempdir)
-
+    
+        # show results
         conv = Ansi2HTMLConverter()
         results = conv.convert(results)
         return results
