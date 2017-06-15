@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h1>style50</h1>
+<form action="{{ url_for('index') }}" method="post">
+    <div class="form-group">
+        <textarea class="form-control" name="code" placeholder="Code..." rows="20" cols="80"></textarea>
+    </div>
+    <div class="form-group">
+        <select class="form-control" name="language">
+            {% for language in languages %}
+                <option name="{{ language }}">{{ language }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-default" type="submit">style50</button>
+    </div>
+</form>
+{% endblock %}
